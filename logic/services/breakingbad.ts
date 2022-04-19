@@ -7,15 +7,16 @@ import {
 
 export const getCharacters = async () => {
   const response = await breakingbadApi.get<GetCharactersResponse>(
-    "/api/characters"
+    "/characters"
   );
+  console.log('response', response)
   return response.data;
 };
 export const getRandomQuoteByAuthor = async (
   params: GetQuoteResponseParams
 ) => {
   const response = await breakingbadApi.get<GetQuoteResponse>(
-    "/api/quote/random",
+    "/quote/random",
     { params }
   );
   return response.data;
