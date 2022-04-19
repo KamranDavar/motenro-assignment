@@ -24,9 +24,9 @@ export type quote = {
 export type quotes = quote[];
 
 export type GetQuoteResponse = {
-  data: quote;
+  data: quotes;
 };
 
 export type GetQuoteResponseParams = {
-  author: string;
+  author?: string;
 };
