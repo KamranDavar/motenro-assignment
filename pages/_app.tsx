@@ -1,19 +1,8 @@
-import "../styles/globals.css";
-import "../styles/antd.less";
-import type { AppProps } from "next/app";
-import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
-
-  return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-      </QueryClientProvider>
-    </>
-  );
+  return <Component {...pageProps} />
 }
 
-export default MyApp;
+export default MyApp
