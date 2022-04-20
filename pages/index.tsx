@@ -1,4 +1,6 @@
 import { Select } from "antd";
+import { List } from "antd/lib/form/Form";
+import moment from "moment";
 import type {
   GetServerSideProps,
   InferGetServerSidePropsType,
@@ -20,17 +22,29 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = ({
   posts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [listBy, setListBy] = useState<characters>(posts);
+  const [list, setList] = useState<characters>(posts);
   const [sortBy, setSortBy] = useState<sortByType>(undefined);
   const [sortFrom, setSortFrom] = useState<sortFromType>(undefined);
   const { Option } = Select;
 
   useEffect(() => {
-    // sortBy &&
-    //   setListBy(
-    //     posts.sort((a: character, b: character) => a[sortBy] - b[sortBy])
-    //   );
-  }, [sortBy]);
+    if (sortFrom && sortBy && (sortBy === "name" || sortBy === "nickname")) {
+      setList(
+        posts.sort(
+          (a: character, b: character) =>
+            sortFrom * a[sortBy].localeCompare(b[sortBy])
+        )
+      );
+    } else if (sortFrom && sortBy && sortBy === "birthday") {
+      setList(
+        posts.sort(
+          (a: character, b: character) =>
+            sortFrom *
+            (moment(a[sortBy]).isSameOrAfter(b[sortBy], "day") ? 1 : -1)
+        )
+      );
+    }
+  }, [sortBy, sortFrom]);
   return (
     <div className={styles.container}>
       <Head>
@@ -51,7 +65,7 @@ const Home: NextPage = ({
           <Option value="end">Descending</Option>
         </Select>
       </section>
-      {posts.map((item: character, index: number) => (
+      {list.map((item: character, index: number) => (
         <section key={index}>
           <Link href={`/${item.name}`}>{item.name}</Link>
         </section>

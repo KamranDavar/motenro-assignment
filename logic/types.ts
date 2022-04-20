@@ -32,4 +32,4 @@ export type GetQuoteResponseParams = {
 };
 
 export type sortByType = "name" | "nickname" | "birthday" | undefined;
-export type sortFromType = "start" | "end" | undefined;
+export type sortFromType = 1 | -1 | undefined;
