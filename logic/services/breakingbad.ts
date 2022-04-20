@@ -10,10 +10,10 @@ export const getCharacters = async () => {
   console.log("response", response);
   return response.data;
 };
-export const getRandomQuoteByAuthor = async (params: any) => {
-  console.log("params:", params.queryKey[1]);
+export const getRandomQuoteByAuthor = async (context: any) => {
+  console.log("context:", context);
   const response = await breakingbadApi.get<quotes>("/quote/random", {
-    params: params.queryKey[1],
+    params: context.queryKey[1],
   });
   return response.data;
 };

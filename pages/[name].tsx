@@ -1,37 +1,35 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useRouter } from "next/router";
 import { useRandomQuoteByAuthor } from "../logic/hooks/breakingbad";
 
 function Quotes() {
   const router = useRouter();
-  const queries = router.query;
-  const quote = useRandomQuoteByAuthor(queries.name);
-  console.log("quote.data", quote.data);
+  const { name } = router.query;
+  const { data, isLoading, isFetching, error, refetch } =
+    useRandomQuoteByAuthor(name);
 
-  if (quote.error) {
-    console.log(quote.error);
+  if (error) {
+    message.error(error);
   }
-  if (quote.isLoading) {
+
+  if (isLoading) {
     return <LoadingOutlined />;
   }
 
   return (
     <>
-      {quote.isFetching ? (
+      {isFetching ? (
         <LoadingOutlined />
       ) : (
-        <>
-          <h3>
-            {/* {quote && quote.data && quote.data.length > 0
-              ? quote?.data[0]?.quote
-              : "there is not any quote from this character"} */}
-            {quote?.data && quote?.data[0]?.quote}
-          </h3>
-        </>
+        <h3>
+          {data && data.length > 0
+            ? data[0].quote
+            : "there is not any quote from this character."}
+        </h3>
       )}
 
-      <Button onClick={() => quote.refetch()} loading={quote.isFetching}>
+      <Button onClick={() => refetch()} loading={isFetching}>
         update
       </Button>
     </>
