@@ -1,5 +1,6 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRandomQuoteByAuthor } from "../logic/hooks/breakingbad";
 
@@ -19,6 +20,11 @@ function Quotes() {
 
   return (
     <section className="quot">
+      <Link href="/">
+        <a>
+          <Button>back</Button>I
+        </a>
+      </Link>
       {isFetching ? (
         <LoadingOutlined />
       ) : (
