@@ -22,7 +22,7 @@ function Quotes() {
     <div className="quote">
       <section className="message" >
         {isFetching ? (
-          <LoadingOutlined />
+          <LoadingOutlined size={65} className='loading' />
         ) : (
           <h3>
             {data && data.length > 0 ? (
@@ -38,12 +38,12 @@ function Quotes() {
       </section>
       <section className="actions">
         <Space>
-          <Button onClick={() => refetch()} loading={isFetching}>
+          <Button className="refetch" onClick={() => refetch()} loading={isFetching}>
             update
           </Button>
           <Link href="/">
             <a>
-              <Button>back</Button>
+              <Button >back</Button>
             </a>
           </Link>
         </Space>
