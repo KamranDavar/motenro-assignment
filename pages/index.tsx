@@ -45,6 +45,7 @@ const Home: NextPage = ({
     }
     setList(sorted);
   }, [sortBy, sortFrom]);
+  
   useEffect(() => {
     setList(
       posts.filter((item: character) => {
