@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Button, message } from "antd";
+import { Alert, Button, message, Space } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRandomQuoteByAuthor } from "../logic/hooks/breakingbad";
@@ -19,26 +19,36 @@ function Quotes() {
   }
 
   return (
-    <section className="quot">
-      <Link href="/">
-        <a>
-          <Button>back</Button>I
-        </a>
-      </Link>
-      {isFetching ? (
-        <LoadingOutlined />
-      ) : (
-        <h3>
-          {data && data.length > 0
-            ? data[0].quote
-            : "there is not any quote from this character."}
-        </h3>
-      )}
-
-      <Button onClick={() => refetch()} loading={isFetching}>
-        update
-      </Button>
-    </section>
+    <div className="quote">
+      <section className="message" >
+        {isFetching ? (
+          <LoadingOutlined />
+        ) : (
+          <h3>
+            {data && data.length > 0 ? (
+              <Alert description={data[0].quote} type="info" />
+            ) : (
+              <Alert
+                description="there is not any quote from this character."
+                type="warning"
+              />
+            )}
+          </h3>
+        )}
+      </section>
+      <section className="actions">
+        <Space>
+          <Button onClick={() => refetch()} loading={isFetching}>
+            update
+          </Button>
+          <Link href="/">
+            <a>
+              <Button>back</Button>
+            </a>
+          </Link>
+        </Space>
+      </section>
+    </div>
   );
 }
 
