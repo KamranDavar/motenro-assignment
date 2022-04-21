@@ -30,3 +30,6 @@ export type GetQuoteResponse = {
 export type GetQuoteResponseParams = {
   author?: string;
 };
+
+export type sortByType = "name" | "nickname" | "birthday" | undefined;
+export type sortFromType = 1 | -1 | undefined;
