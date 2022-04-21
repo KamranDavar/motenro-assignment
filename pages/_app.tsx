@@ -1,4 +1,3 @@
-import "../styles/globals.css";
 import "../styles/antd.less";
 import type { AppProps } from "next/app";
 import { useState } from "react";
@@ -10,7 +9,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
+        <div className="container">
+
         <Component {...pageProps} />
+        </div>
       </QueryClientProvider>
     </>
   );

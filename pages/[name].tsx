@@ -18,7 +18,7 @@ function Quotes() {
   }
 
   return (
-    <>
+    <section className="quot">
       {isFetching ? (
         <LoadingOutlined />
       ) : (
@@ -32,7 +32,7 @@ function Quotes() {
       <Button onClick={() => refetch()} loading={isFetching}>
         update
       </Button>
-    </>
+    </section>
   );
 }
 
