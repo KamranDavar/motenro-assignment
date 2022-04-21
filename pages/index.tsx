@@ -34,7 +34,10 @@ const Home: NextPage = ({
     let sorted = posts.slice(); //TODO  check if better approach exist
     if (sortFrom && sortBy) {
       if (sortBy === "name" || sortBy === "nickname") {
-        sorted = sorted.sort();
+        sorted = sorted.sort(
+          (a: character, b: character) =>
+            sortFrom * a[sortBy].localeCompare(b[sortBy])
+        );
       } else if (sortBy === "birthday") {
         sorted = sorted.sort(
           (a: character, b: character) =>
