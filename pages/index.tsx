@@ -28,23 +28,22 @@ const Home: NextPage = ({
   const { Option } = Select;
 
   useEffect(() => {
-    if (sortFrom && sortBy && (sortBy === "name" || sortBy === "nickname")) {
-      setList(
-        posts.sort(
-          (a: character, b: character) =>
-            sortFrom * a[sortBy].localeCompare(b[sortBy])
-        )
-      );
-    } else if (sortFrom && sortBy && sortBy === "birthday") {
-      setList(
-        posts.sort(
+    let sorted = posts.slice(); //TODO  check if better approach exist
+    if (sortFrom && sortBy) {
+      if (sortBy === "name" || sortBy === "nickname") {
+        sorted = sorted.sort();
+      } else if (sortBy === "birthday") {
+        sorted = sorted.sort(
           (a: character, b: character) =>
             sortFrom *
             (moment(a[sortBy]).isSameOrAfter(b[sortBy], "day") ? 1 : -1)
-        )
-      );
+        );
+      }
     }
+    setList(sorted);
   }, [sortBy, sortFrom]);
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -55,21 +54,28 @@ const Home: NextPage = ({
       <section>
         <Select style={{ width: 120 }} onChange={(value) => setSortBy(value)}>
           <Option value="name">Name</Option>
-          <Option value="nickName">Nickname</Option>
+          <Option value="nickname">Nickname</Option>
           <Option value="birthday">Birthday</Option>
         </Select>
       </section>
       <section>
         <Select style={{ width: 120 }} onChange={(value) => setSortFrom(value)}>
-          <Option value="start">Ascending</Option>
-          <Option value="end">Descending</Option>
+          <Option value={1}>Ascending</Option>
+          <Option value={-1}>Descending</Option>
         </Select>
       </section>
-      {list.map((item: character, index: number) => (
-        <section key={index}>
-          <Link href={`/${item.name}`}>{item.name}</Link>
-        </section>
-      ))}
+      <section>
+        {list.map((item: character, index: number) => (
+          <div key={item.char_id}>
+            <Link href={`/${item.name}`}>
+              <a>
+                {item.name} || {item.nickname} || {item.birthday}
+              </a>
+            </Link>
+            <br />
+          </div>
+        ))}
+      </section>
     </div>
   );
 };
