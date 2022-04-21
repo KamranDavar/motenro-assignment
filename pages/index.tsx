@@ -1,4 +1,4 @@
-import { Card, Input, Select, List } from "antd";
+import { Card, Input, Select, List, Space } from "antd";
 import moment from "moment";
 import type {
   GetServerSideProps,
@@ -68,23 +68,30 @@ const Home: NextPage = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section>
-        <Select style={{ width: 120 }} onChange={(value) => setSortBy(value)}>
-          <Option value="name">Name</Option>
-          <Option value="nickname">Nickname</Option>
-          <Option value="birthday">Birthday</Option>
-        </Select>
-      </section>
-      <section>
-        <Select style={{ width: 120 }} onChange={(value) => setSortFrom(value)}>
-          <Option value={1}>Ascending</Option>
-          <Option value={-1}>Descending</Option>
-        </Select>
-      </section>
-      <section>
-        <Input
-          style={{ width: 120 }}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Space>
+          <Select
+            style={{ width: 120 }}
+            onChange={(value) => setSortBy(value)}
+            placeholder="sort by"
+          >
+            <Option value="name">Name</Option>
+            <Option value="nickname">Nickname</Option>
+            <Option value="birthday">Birthday</Option>
+          </Select>
+          <Select
+            style={{ width: 120 }}
+            onChange={(value) => setSortFrom(value)}
+            placeholder="sort from"
+          >
+            <Option value={1}>Ascending</Option>
+            <Option value={-1}>Descending</Option>
+          </Select>
+          <Input
+            style={{ width: 120 }}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="search"
+          />
+        </Space>
       </section>
       <section>
         <List
@@ -95,7 +102,17 @@ const Home: NextPage = ({
               <Card
                 hoverable
                 style={{ width: 240 }}
-                cover={<img alt={item.name} src={item.img} />}
+                cover={
+                  <Link href={`/${item.name}`}>
+                    <a>
+                      <img
+                        alt={item.name}
+                        src={item.img}
+                        style={{ width: "100%", height: "auto" }}
+                      />
+                    </a>
+                  </Link>
+                }
               >
                 <Meta
                   title={item.nickname}
