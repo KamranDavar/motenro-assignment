@@ -1,5 +1,4 @@
-import { Input, Select } from "antd";
-import { List } from "antd/lib/form/Form";
+import { Card, Input, Select, List } from "antd";
 import moment from "moment";
 import type {
   GetServerSideProps,
@@ -28,6 +27,8 @@ const Home: NextPage = ({
   const [sortFrom, setSortFrom] = useState<sortFromType>(undefined);
   const [search, setSearch] = useState<searchType>(undefined);
   const { Option } = Select;
+  const { Item } = List;
+  const { Meta } = Card;
 
   useEffect(() => {
     let sorted = posts.slice(); //TODO  check if better approach exist
@@ -86,16 +87,31 @@ const Home: NextPage = ({
         />
       </section>
       <section>
-        {list.map((item: character, index: number) => (
-          <div key={item.char_id}>
-            <Link href={`/${item.name}`}>
-              <a>
-                {item.name} || {item.nickname} || {item.birthday}
-              </a>
-            </Link>
-            <br />
-          </div>
-        ))}
+        <List
+          grid={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }}
+          dataSource={list}
+          renderItem={(item: character) => (
+            <List.Item>
+              <Card
+                hoverable
+                style={{ width: 240 }}
+                cover={<img alt={item.name} src={item.img} />}
+              >
+                <Meta
+                  title={item.nickname}
+                  description={
+                    <>
+                      <span>{item.name}</span> <br />
+                      {item.birthday !== "Unknown" && (
+                        <span>was born in: {item.birthday}</span>
+                      )}
+                    </>
+                  }
+                />
+              </Card>
+            </List.Item>
+          )}
+        />
       </section>
     </div>
   );
