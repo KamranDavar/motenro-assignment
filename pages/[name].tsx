@@ -23,7 +23,7 @@ function Quotes() {
           <h3>
             {data && data.length > 0 ? (
               <div className="info">
-                <span className="main">{data[0].quote}</span>
+                <span className="main">"{data[0].quote}"</span>
                 <span className="sub">
                   {data[0].author},{data[0].series}
                 </span>
