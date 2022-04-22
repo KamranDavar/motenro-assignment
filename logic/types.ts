@@ -19,6 +19,7 @@ export type quote = {
   quote_id: number;
   quote: string;
   author: string;
+  series: string;
 };
 
 export type quotes = quote[];

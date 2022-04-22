@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Alert, Button, message, Space } from "antd";
+import { Alert, Button, Col, message, Row, Space } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRandomQuoteByAuthor } from "../logic/hooks/breakingbad";
@@ -14,41 +14,48 @@ function Quotes() {
     message.error(error);
   }
 
-  if (isLoading) {
-    return <LoadingOutlined />;
-  }
-
   return (
-    <div className="quote">
-      <section className="message" >
-        {isFetching ? (
-          <LoadingOutlined size={65} className='loading' />
+    <Row className="quote">
+      <Col xs={24} className="message">
+        {isFetching || isLoading ? (
+          <LoadingOutlined className="loading" />
         ) : (
           <h3>
             {data && data.length > 0 ? (
-              <Alert description={data[0].quote} type="info" />
+              <div className="info">
+                <span className="main">"{data[0].quote}"</span>
+                <span className="sub">
+                  {data[0].author},{data[0].series}
+                </span>
+              </div>
             ) : (
-              <Alert
-                description="there is not any quote from this character."
-                type="warning"
-              />
+              <div className="warning">
+                <span className="main">
+                  there is not any quote from this character.
+                </span>
+              </div>
             )}
           </h3>
         )}
-      </section>
-      <section className="actions">
+      </Col>
+      <Col xs={24} className="actions">
         <Space>
-          <Button className="refetch" onClick={() => refetch()} loading={isFetching}>
+          <Button
+            type="primary"
+            className="refetch"
+            onClick={() => refetch()}
+            loading={isFetching}
+          >
             update
           </Button>
           <Link href="/">
             <a>
-              <Button >back</Button>
+              <Button>back</Button>
             </a>
           </Link>
         </Space>
-      </section>
-    </div>
+      </Col>
+    </Row>
   );
 }
 
