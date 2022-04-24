@@ -11,8 +11,6 @@ Open [http://localhost:8000](http://localhost:8000) with your browser to see the
 
 Or:
 ```bash
- docker compose up
-# or
 npm run dev
 # or
 yarn dev
