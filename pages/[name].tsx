@@ -7,11 +7,11 @@ import { useRandomQuoteByAuthor } from "../logic/hooks/breakingbad";
 function Quotes() {
   const router = useRouter();
   const { name } = router.query;
-  const { data, isLoading, isFetching, error, refetch } =
+  const { data, isLoading, isFetching, error, refetch, isError } =
     useRandomQuoteByAuthor(name);
 
-  if (error) {
-    message.error(error);
+  if (isError) {
+    message.error(error.message);
   }
 
   return (
@@ -23,7 +23,7 @@ function Quotes() {
           <h3>
             {data && data.length > 0 ? (
               <div className="info">
-                <span className="main">"{data[0].quote}"</span>
+                <span className="main">{data[0].quote}</span>
                 <span className="sub">
                   {data[0].author},{data[0].series}
                 </span>

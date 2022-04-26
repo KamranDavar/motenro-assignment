@@ -1,4 +1,4 @@
-import { Card, Input, Select, List, Space, Row, Col } from "antd";
+import { Card, Input, Select, List, Space, Row, Col, Alert } from "antd";
 import moment from "moment";
 import type {
   GetServerSideProps,
@@ -17,10 +17,10 @@ import {
   sortByType,
   sortFromType,
 } from "../logic/types";
-import styles from "../styles/Home.module.css";
 
 const Home: NextPage = ({
   posts,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [list, setList] = useState<characters>(posts);
   const [sortBy, setSortBy] = useState<sortByType>(undefined);
@@ -64,6 +64,10 @@ const Home: NextPage = ({
     );
   }, [search]);
 
+  if (error) {
+    return <Alert message="Error" description={error} type="error" showIcon />;
+  }
+
   return (
     <div className="home">
       <Head>
@@ -72,34 +76,34 @@ const Home: NextPage = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Row className="action">
-          <Col xs={24} md={12} lg={4} className='p-25'>
-            <Select
-              className="width100"
-              onChange={(value) => setSortBy(value)}
-              placeholder="sort by"
-            >
-              <Option value="name">Name</Option>
-              <Option value="nickname">Nickname</Option>
-              <Option value="birthday">Birthday</Option>
-            </Select>
-          </Col>
-          <Col xs={24} md={12} lg={4} className='p-25'>
-            <Select
-              className="width100"
-              onChange={(value) => setSortFrom(value)}
-              placeholder="sort from"
-            >
-              <Option value={1}>Ascending</Option>
-              <Option value={-1}>Descending</Option>
-            </Select>
-          </Col>
-          <Col xs={24} md={12} lg={4} className='p-25'>
-            <Input
-              className="width100"
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="search"
-            />
-          </Col>
+        <Col xs={24} md={12} lg={4} className="p-25">
+          <Select
+            className="width100"
+            onChange={(value) => setSortBy(value)}
+            placeholder="sort by"
+          >
+            <Option value="name">Name</Option>
+            <Option value="nickname">Nickname</Option>
+            <Option value="birthday">Birthday</Option>
+          </Select>
+        </Col>
+        <Col xs={24} md={12} lg={4} className="p-25">
+          <Select
+            className="width100"
+            onChange={(value) => setSortFrom(value)}
+            placeholder="sort from"
+          >
+            <Option value={1}>Ascending</Option>
+            <Option value={-1}>Descending</Option>
+          </Select>
+        </Col>
+        <Col xs={24} md={12} lg={4} className="p-25">
+          <Input
+            className="width100"
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="search"
+          />
+        </Col>
       </Row>
       <section className="album">
         <List
@@ -137,11 +141,18 @@ const Home: NextPage = ({
   );
 };
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const posts = await getCharacters();
-
+  let posts;
+  let error: any;
+  try {
+    posts = await getCharacters();
+  } catch (err) {
+    posts = [];
+    error = err;
+  }
   return {
     props: {
       posts,
+      error: error.message,
     },
   };
 };
