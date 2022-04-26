@@ -142,17 +142,20 @@ const Home: NextPage = ({
 };
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let posts;
-  let error: any;
   try {
     posts = await getCharacters();
-  } catch (err) {
-    posts = [];
-    error = err;
+  } catch (err: any) {
+    return {
+      props: {
+        posts: [],
+        error: err?.message,
+      },
+    };
   }
   return {
     props: {
       posts,
-      error: error.message,
+      error: null,
     },
   };
 };
