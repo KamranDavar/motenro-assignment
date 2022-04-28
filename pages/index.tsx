@@ -19,16 +19,16 @@ import {
 } from "../logic/types";
 
 const Home: NextPage = ({
-  posts,
+  characters,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [list, setList] = useState<characters>(posts);
+  const [list, setList] = useState<characters>(characters);
   const [sortBy, setSortBy] = useState<sortByType>(undefined);
   const [sortFrom, setSortFrom] = useState<sortFromType>(undefined);
   const [search, setSearch] = useState<searchType>(undefined);
 
   useEffect(() => {
-    let sorted = posts.slice(); //TODO  check if better approach exist
+    let sorted = characters.slice(); //TODO  check if better approach exist
     if (sortFrom && sortBy) {
       if (sortBy === "name" || sortBy === "nickname") {
         sorted = sorted.sort(
@@ -48,7 +48,7 @@ const Home: NextPage = ({
 
   useEffect(() => {
     setList(
-      posts.filter((item: character) => {
+      characters.filter((item: character) => {
         if (search !== undefined) {
           return (
             item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -137,20 +137,20 @@ const Home: NextPage = ({
   );
 };
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  let posts;
+  let characters;
   try {
-    posts = await getCharacters();
+    characters = await getCharacters();
   } catch (err: any) {
     return {
       props: {
-        posts: [],
+        characters: [],
         error: err?.message,
       },
     };
   }
   return {
     props: {
-      posts,
+      characters,
       error: null,
     },
   };
